@@ -23,7 +23,7 @@ export default function AccountingPage() {
         ])
     }
     const deleteRecord = (id: number) => {
-        setRecords(records.filter((r)=>{r.id != id}))
+        setRecords(records.filter((r)=> r.id != id))
     }
 
   const total = records.reduce((sum, record) => {
@@ -42,7 +42,6 @@ export default function AccountingPage() {
           className="bg-[#EEEEEE] px-4 py-2 rounded transition cursor-pointer hover:bg-[#223345] hover:text-white"
           onClick={()=> router.push("/")}
           >返回首頁</button>
-          
         </div>
     )
 }
