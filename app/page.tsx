@@ -10,7 +10,7 @@ export default function HomePage() {
       <p className="bg-[#CCDDEE] py-20">歡迎光臨我的頁面</p>
       <button 
         onClick={()=> router.push("/accounting")}
-        className="bg-[#EEEEEE] p-2 rounded mt-10 transition cursor-pointer hover:bg-[#223345] hover:text-white">點此開始
+        className="bg-[#EEEEEE] px-4 py-2 rounded mt-10 transition cursor-pointer hover:bg-[#223345] hover:text-white">點此開始
       </button>
     </div>
   );
