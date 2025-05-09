@@ -41,6 +41,7 @@ export default function HomePage() {
       alert("註冊成功，請登入");
       setRegisterEmail("");
       setRegisterPassword("");
+      return;
     } catch (error: unknown) {
       const firebaseError = error as FirebaseError;
       switch (firebaseError.code) {
@@ -160,6 +161,7 @@ export default function HomePage() {
                 <div className="flex items-center gap-2">
                   <span>電郵</span>
                   <input
+                    value={loginEmail}
                     onChange={(e) => setLoginEmail(e.target.value)}
                     className="border p-2 rounded"
                   />
@@ -168,6 +170,7 @@ export default function HomePage() {
                   <span>密碼</span>
                   <input
                     type="password"
+                    value={loginPassword}
                     onChange={(e) => setLoginPassword(e.target.value)}
                     className="border p-2 rounded"
                   />
@@ -199,6 +202,7 @@ export default function HomePage() {
                 <div className="flex items-center gap-2">
                   <span>電郵</span>
                   <input
+                    value={registerEmail}
                     onChange={(e) => setRegisterEmail(e.target.value)}
                     className="border p-2 rounded"
                   />
@@ -206,6 +210,7 @@ export default function HomePage() {
                 <div className="flex items-center gap-2">
                   <span>密碼</span>
                   <input
+                    value={registerPassword}
                     type="password"
                     onChange={(e) => setRegisterPassword(e.target.value)}
                     className="border p-2 rounded"
