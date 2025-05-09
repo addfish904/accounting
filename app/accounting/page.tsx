@@ -1,6 +1,8 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "@/lib/firebase";
 import Form from "../components/Form";
 import List from "../components/List";
 
@@ -15,6 +17,20 @@ type Record = {
 export default function AccountingPage() {
     const router = useRouter();
     const [records, setRecords] = useState<Record[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    //檢查使用者是否已登入
+    useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+        if (!user) {
+        router.push("/");
+        } else {
+        setLoading(false);
+        }
+    });
+
+    return () => unsubscribe();
+    }, [router]);
 
     const addRecord = (record: Omit<Record, "id">)=>{
         setRecords([
@@ -26,11 +42,13 @@ export default function AccountingPage() {
         setRecords(records.filter((r)=> r.id != id))
     }
 
-  const total = records.reduce((sum, record) => {
+    const total = records.reduce((sum, record) => {
     return record.type === "收入"
-      ? sum + record.amount
-      : sum - record.amount;
-  }, 0);
+        ? sum + record.amount
+        : sum - record.amount;
+    }, 0);
+
+    if (loading) return <p className="text-center mt-10">載入中...</p>;
 
     return (
         <div className="text-center mx-auto space-y-8">
