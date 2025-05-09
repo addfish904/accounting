@@ -74,7 +74,7 @@ export default function HomePage() {
       setLoginEmail("");
       setLoginPassword("");
       setUser(userCredential.user);
-    } catch (error: unknown) {
+    } catch {
       alert(`帳號或密碼錯誤，請重新輸入`);
     }
   };
