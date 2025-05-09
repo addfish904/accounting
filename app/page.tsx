@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { auth } from "@/lib/firebase";
+import type { User } from "firebase/auth";
+import type { FirebaseError } from "firebase/app";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -13,7 +15,8 @@ export default function HomePage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
+  {console.log(user)}
 
   const register = async () => {
     if (password.length < 6) {
@@ -23,8 +26,9 @@ export default function HomePage() {
     try {
       await createUserWithEmailAndPassword(auth, email, password);
       alert("註冊成功，請登入");
-    } catch (error: any) {
-      switch (error.code) {
+    } catch (error: unknown) {
+      const firebaseError = error as FirebaseError;
+      switch (firebaseError.code) {
         case "auth/email-already-in-use":
           alert("此 Email 已被註冊，請改用其他 Email");
           break;
@@ -35,7 +39,7 @@ export default function HomePage() {
           alert("密碼太弱，請至少輸入 6 個字元");
           break;
         default:
-          alert(`註冊失敗：${error.message}`);
+          alert(`註冊失敗：${firebaseError.message}`);
       }
     }
   };
@@ -45,8 +49,9 @@ export default function HomePage() {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       alert("登入成功");
       setUser(userCredential.user);
-    } catch (error: any) {
-      alert(`登入失敗：${error.message}`);
+    } catch (error: unknown) {
+      const firebaseError = error as FirebaseError;
+      alert(`登入失敗：${firebaseError.message}`);
     }
   };
 
@@ -62,42 +67,39 @@ export default function HomePage() {
       {!user ? (
         <div className="flex flex-col">
           <div id="login" className="inline-block">
-            <div className="text-center">
-              <div className="flex flex-col gap-2.5 items-center">
-                <h2 className="text-xl font-black m-4">登入系統</h2>
-                <div className="flex items-center gap-2">
-                  <span>電郵</span>
-                  <input onChange={e => setEmail(e.target.value)} className="border p-2 rounded" />
-                </div>
-                <div className="flex items-center gap-2">
-                  <span>密碼</span>
-                  <input type="password" onChange={e => setPassword(e.target.value)} className="border p-2 rounded" />
-                </div>
-                <button 
-                  onClick={login}
-                  className="bg-[#EEEEEE] px-4 py-2 mt-2 w-fit rounded transition cursor-pointer hover:bg-[#223345] hover:text-white">登入
-                </button>
+            <div className="flex flex-col gap-2.5 items-center">
+              <h2 className="text-xl font-black m-4">登入系統</h2>
+              <div className="flex items-center gap-2">
+                <span>電郵</span>
+                <input onChange={e => setEmail(e.target.value)} className="border p-2 rounded" />
               </div>
+              <div className="flex items-center gap-2">
+                <span>密碼</span>
+                <input type="password" onChange={e => setPassword(e.target.value)} className="border p-2 rounded" />
+              </div>
+              <button 
+                onClick={login}
+                className="bg-[#EEEEEE] px-4 py-2 mt-2 w-fit rounded transition cursor-pointer hover:bg-[#223345] hover:text-white">登入
+              </button>
             </div>
           </div>
           <hr className="text-gray-300 m-6" />
+
           <div id="register" className="inline-block">
-            <div className="text-center">
-              <div className="flex flex-col gap-2.5 items-center">
-                <h2 className="text-xl font-black m-4">註冊系統</h2>
-                <div className="flex items-center gap-2">
-                  <span>電郵</span>
-                  <input onChange={e => setEmail(e.target.value)} className="border p-2 rounded" />
-                </div>
-                <div className="flex items-center gap-2">
-                  <span>密碼</span>
-                  <input type="password" onChange={e => setPassword(e.target.value)} className="border p-2 rounded" />
-                </div>
-                <button 
-                  onClick={register}
-                  className="bg-[#EEEEEE] px-4 py-2 mt-2 w-fit rounded transition cursor-pointer hover:bg-[#223345] hover:text-white">註冊
-                </button>
+            <div className="flex flex-col gap-2.5 items-center">
+              <h2 className="text-xl font-black m-4">註冊系統</h2>
+              <div className="flex items-center gap-2">
+                <span>電郵</span>
+                <input onChange={e => setEmail(e.target.value)} className="border p-2 rounded" />
               </div>
+              <div className="flex items-center gap-2">
+                <span>密碼</span>
+                <input type="password" onChange={e => setPassword(e.target.value)} className="border p-2 rounded" />
+              </div>
+              <button 
+                onClick={register}
+                className="bg-[#EEEEEE] px-4 py-2 mt-2 w-fit rounded transition cursor-pointer hover:bg-[#223345] hover:text-white">註冊
+              </button>
             </div>
           </div>
         </div>
