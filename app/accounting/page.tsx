@@ -1,5 +1,5 @@
 "use client";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/lib/firebase";
@@ -26,12 +26,12 @@ export default function AccountingPage() {
         router.push("/");
       } else {
         setUserEmail(user.email)
-        console.log(userEmail)
         setLoading(false);
       }
     });
 
     return () => unsubscribe();
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router]);
 
   const addRecord = (record: Omit<Record, "id">) => {
