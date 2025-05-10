@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/lib/firebase";
@@ -17,6 +17,7 @@ export default function AccountingPage() {
   const router = useRouter();
   const [records, setRecords] = useState<Record[]>([]);
   const [loading, setLoading] = useState(true);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
 
   //檢查使用者是否已登入
   useEffect(() => {
@@ -24,6 +25,8 @@ export default function AccountingPage() {
       if (!user) {
         router.push("/");
       } else {
+        setUserEmail(user.email)
+        console.log(userEmail)
         setLoading(false);
       }
     });
@@ -45,7 +48,8 @@ export default function AccountingPage() {
   if (loading) return <p className="text-center mt-10">載入中...</p>;
 
   return (
-    <div className="text-center mx-auto space-y-8">
+    <div className="text-center mx-auto pt-12">
+      <h2 className="m-2 font-bold">你已經使用 {userEmail} 登入</h2>
       <Form onAdd={addRecord} />
       <hr className="text-gray-300 mb-8" />
       <List records={records} onDelete={deleteRecord} />

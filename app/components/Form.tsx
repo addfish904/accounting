@@ -22,7 +22,7 @@ export default function Form({ onAdd }: Props) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex justify-center items-center gap-2 p-4 mt-10 mb-2.5">
+    <form onSubmit={handleSubmit} className="flex justify-center items-center gap-2 p-4 mt-2 mb-2.5">
       <div>
         <select
           value={type}
