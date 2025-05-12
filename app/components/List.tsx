@@ -1,11 +1,11 @@
 type Props = {
   records: {
-    id: number;
+    id: string;
     type: "收入" | "支出";
     amount: number;
     purpose: string;
   }[];
-  onDelete: (id: number) => void
+  onDelete: (id: string) => void
 };
 
 export default function List({ records, onDelete }: Props) {

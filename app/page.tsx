@@ -38,7 +38,6 @@ export default function HomePage() {
         registerEmail,
         registerPassword
       );
-      alert("註冊成功，請登入");
       setRegisterEmail("");
       setRegisterPassword("");
       return;
@@ -71,7 +70,6 @@ export default function HomePage() {
         loginEmail,
         loginPassword
       );
-      alert("登入成功");
       setLoginEmail("");
       setLoginPassword("");
       setUser(userCredential.user);
@@ -82,7 +80,6 @@ export default function HomePage() {
 
   const logout = async () => {
     await signOut(auth);
-    alert("登出成功");
     setUser(null);
   };
 
@@ -157,24 +154,9 @@ export default function HomePage() {
           <div id="login" className="inline-block">
             <div className="text-center">
               <div className="flex flex-col gap-2.5 items-center">
-                <h2 className="text-xl font-black m-4">登入系統</h2>
-                <div className="flex items-center gap-2">
-                  <span>電郵</span>
-                  <input
-                    value={loginEmail}
-                    onChange={(e) => setLoginEmail(e.target.value)}
-                    className="border p-2 rounded"
-                  />
-                </div>
-                <div className="flex items-center gap-2">
-                  <span>密碼</span>
-                  <input
-                    type="password"
-                    value={loginPassword}
-                    onChange={(e) => setLoginPassword(e.target.value)}
-                    className="border p-2 rounded"
-                  />
-                </div>
+                <p className="text-lg mt-10 mb-2 font-medium">
+                  已經使用 {user?.email} 登入
+                </p>
                 <div className="flex gap-2">
                   <button
                     onClick={() => router.push("/accounting")}
